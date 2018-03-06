@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Teste SoftExpert {% block sufix_title %}{% endblock sufix_title %}</title>
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+    <link href='http://fonts.googleapis.com/icon?family=Material+Icons' rel='stylesheet' type='text/css'>
+    <!-- Compiled and minified JavaScript -->
+
+    <script
+            src="https://code.jquery.com/jquery-2.2.4.min.js"
+            integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+    <script>
+        var baseUrl = "{{ baseUrl() }}";
+    </script>
+    <style>
+        #app {
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+
+        #login-panel {
+            margin-top: 16px;
+        }
+
+        main {
+            flex: 1 0 auto;
+        }
+    </style>
+</head>
+<body class="">
+    <div id="app">
+        <header>
+            {% include 'partials/menu.html.twig' %}
+        </header>
+        <main class="container">
+            {% block content %}{% endblock content %}
+        </main>
+        <footer class="page-footer blue">
+            <div class="footer-copyright">
+                <div class="container">
+                    &copy; {{ 'now'|date('Y')  }} <a href="http://www.softexpert.com.br" class="white-text text-lighten-4">SoftExpert</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+    {% block javascript %}
+    {% endblock javascript %}
+</body>
+</html>

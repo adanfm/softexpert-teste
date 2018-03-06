@@ -1,0 +1,106 @@
+{% extends 'layout_admin.html.twig' %}
+
+{% block content %}
+    <div class="row">
+        <h4>Produto</h4>
+        <div class="row">
+            <div class="col s12">
+                <a href="{{ url('admin.products.index') }}" class="btn blue darken-3 waves-effect">Listar Produtos</a>
+                <a href="{{ url('admin.products.add') }}" class="btn blue darken-3 waves-effect">Novo Produto</a>
+                <a href="{{ url('admin.products.edit', {id: product.id}) }}" class="btn blue darken-3 waves-effect">Editar Produto</a>
+            </div>
+        </div>
+
+        <table class="bordered striped highlight centered responsive-table z-depth-5">
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="row valign-wrapper">
+                            <div class="col s12">
+                                ID
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="row valign-wrapper">
+                            <div class="col s12">
+                                {{ product.id }}
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="row valign-wrapper">
+                            <div class="col s12">
+                                Nome
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="row valign-wrapper">
+                            <div class="col s12">
+                                {{ product.name }}
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="row valign-wrapper">
+                            <div class="col s12">
+                                Preço
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="row valign-wrapper">
+                            <div class="col s12">
+                                R$ {{ product.price|number_format(2, ',', '.')  }}
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- Modal Structure -->
+    <div id="modal1" class="modal">
+        <div class="modal-content">
+            <h4>Atenção!</h4>
+            <p>Deseja realmente excluir este Registro?</p>
+        </div>
+        <div class="modal-footer">
+            <a class="btn modal-action modal-close">Cancelar</a>
+            <a href="#" id="modal-delete-action" class="btn modal-action modal-close red waves-effect waves-white text-white" data-id="">Excluir</a>
+        </div>
+    </div>
+{% endblock content %}
+{% block javascript %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function(){
+            $('.modal').modal();
+            $('.delete-button').on('click', function (event) {
+                $('#modal-delete-action').attr('data-id', $(this).data('id'));
+            });
+
+            $('#modal-delete-action').on('click', function (event) {
+                $.ajax({
+                    url: baseUrl + '/admin/categories/' + $(this).data('id') + '/delete',
+                    method: 'POST',
+                    dataType: 'json',
+                    success: function(data) {
+                        location.reload();
+                    }
+                })
+            });
+        });
+
+        {% if hasFlash('msg') %}
+        {% set flash = getFlash('msg') %}
+        Materialize.toast("{{ flash.message }}", 3000, 'rounded');
+        {% endif %}
+
+    </script>
+{% endblock javascript %}

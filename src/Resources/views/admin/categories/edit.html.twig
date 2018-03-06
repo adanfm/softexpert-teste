@@ -1,0 +1,50 @@
+{% extends 'layout_admin.html.twig' %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="row">
+                <div class="col s6">
+                    <div class="card-panel blue lighten-3">
+                        <span class="blue-text text-darken-2">
+                            <h5>Editar categoria</h5>
+                        </span>
+                    </div>
+                </div>
+                <div class="col s6">
+                    <div class="card-panel blue lighten-3 valign-wrapper">
+                        <span class="blue-text text-darken-2">
+                            <div class="valign">
+                                <a href="{{ url('admin.categories.index') }}" class="waves-effect waves-light blue btn">
+                                    <i class="material-icons">arrow_back</i>
+                                </a>
+                            </div>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="card-panel z-depth-5">
+                <form id="category_form" method="post" action="{{ url('admin.categories.edit', {id: id}) }}">
+                    <input type="hidden" name="id" value="{{ category.id }}" />
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input  name="name" type="text" required id="category_name" value="{{ category.name }}"/>
+                            <label for="category_name">Nome</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input  name="tax_percentage" type="number" required id="category_name" step="any" value="{{ category.tax_percentage }}"/>
+                            <label for="category_name">Percentual de imposto</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s6">
+                            <button type="submit" class="btn blue waves-effect waves-light btn btn-large" type="button"> Cadastrar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

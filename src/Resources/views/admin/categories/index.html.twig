@@ -1,0 +1,90 @@
+{% extends 'layout_admin.html.twig' %}
+
+{% block content %}
+    <div class="row">
+        <h4>Listagem de Categorias</h4>
+        <div class="row">
+            <div class="col s12">
+                <a href="{{ url('admin.categories.add') }}" class="btn blue darken-3 waves-effect">Nova Categoria</a>
+            </div>
+        </div>
+
+        <table class="bordered striped highlight centered responsive-table z-depth-5">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for category in categories %}
+                   <tr>
+                       <td>
+                           <div class="row valign-wrapper">
+                               <div class="col s12">
+                                   {{ category.id }}
+                               </div>
+                           </div>
+                       </td>
+                       <td>
+                           <div class="row valign-wrapper">
+                               <div class="col s12">
+                                   {{ category.name }}
+                               </div>
+                           </div>
+                       </td>
+                       <td>
+                           <a class="btn blue waves-effect waves-light" href="{{ url('admin.categories.show', {'id' : category.id}) }}">Visualizar</a>
+                           <a class="btn blue waves-effect waves-light" href="{{ url('admin.categories.edit', {'id' : category.id}) }}">Editar</a>
+                           <a
+                               class="btn blue waves-effect waves-light modal-trigger delete-button"
+                               data-target="modal1"
+                               data-id="{{ category.id }}"
+                           >Excluir</a>
+                       </td>
+                   </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <!-- Modal Structure -->
+    <div id="modal1" class="modal">
+        <div class="modal-content">
+            <h4>Atenção!</h4>
+            <p>Deseja realmente excluir este Registro?</p>
+        </div>
+        <div class="modal-footer">
+            <a class="btn modal-action modal-close">Cancelar</a>
+            <a href="#" id="modal-delete-action" class="btn modal-action modal-close red waves-effect waves-white text-white" data-id="">Excluir</a>
+        </div>
+    </div>
+{% endblock content %}
+{% block javascript %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function(){
+            $('.modal').modal();
+            $('.delete-button').on('click', function (event) {
+                $('#modal-delete-action').attr('data-id', $(this).data('id'));
+            });
+
+            $('#modal-delete-action').on('click', function (event) {
+                $.ajax({
+                    url: baseUrl + '/admin/categories/' + $(this).data('id') + '/delete',
+                    method: 'POST',
+                    dataType: 'json',
+                    success: function(data) {
+                        location.reload();
+                    }
+                })
+            });
+        });
+
+        {% if hasFlash('msg') %}
+            {% set flash = getFlash('msg') %}
+            Materialize.toast("{{ flash.message }}", 3000, 'rounded');
+        {% endif %}
+
+    </script>
+{% endblock javascript %}

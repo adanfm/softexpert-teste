@@ -1,0 +1,68 @@
+{% extends 'layout_admin.html.twig' %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="row">
+                <div class="col s6">
+                    <div class="card-panel blue lighten-3">
+                        <span class="blue-text text-darken-2">
+                            <h5>Editar Produto</h5>
+                        </span>
+                    </div>
+                </div>
+                <div class="col s6">
+                    <div class="card-panel blue lighten-3 valign-wrapper">
+                        <span class="blue-text text-darken-2">
+                            <div class="valign">
+                                <a href="{{ url('admin.products.index') }}" class="waves-effect waves-light blue btn">
+                                    <i class="material-icons">arrow_back</i>
+                                </a>
+                            </div>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="card-panel z-depth-5">
+                <form id="product_form" method="post" action="{{ url('admin.products.edit', {id: id}) }}">
+                    <input type="hidden" name="id" value="{{ product.id }}" />
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input  name="name" type="text" required id="product_name" value="{{ product.name }}" />
+                            <label for="product_name">Nome</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input  name="price" type="number" required id="product_price" step="any" value="{{ product.price }}" />
+                            <label for="product_price">Preço</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <select name="category_id" id="product_category" required>
+                                {% for category in categories %}
+                                    <option value="{{ category.id }}" {{ category.id == product.category_id ? 'selected="selected"' : ''}}>{{ category.name }}</option>
+                                {% endfor %}
+                            </select>
+                            <label for="product_price">Categoria</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s6">
+                            <button type="submit" class="btn blue waves-effect waves-light btn btn-large"> Atualizar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+{% block javascript %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function() {
+            $('select').material_select();
+        });
+    </script>
+{% endblock javascript %}
